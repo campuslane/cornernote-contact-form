@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Cornernote\\Contact' => $baseDir . '/cornernote/contact.php',
+    'Cornernote\\ContactOLD' => $baseDir . '/includes/class-contact-singleton-bak.php',
+    'Cornernote\\Validation' => $baseDir . '/cornernote/validation.php',
 );

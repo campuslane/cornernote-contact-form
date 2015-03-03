@@ -24,7 +24,7 @@ class Contact {
 	private function __construct()
 	{
 
-		$this->set_plugin_path();
+		$this->set_plugin_path_and_url();
 		$this->set_validation();
 		$this->set_shortcodes();
 		$this->set_actions();
@@ -62,20 +62,41 @@ class Contact {
 	 * Set the Plugin Path
 	 * It's the parent of the current path.
 	 */
-	public function set_plugin_path()
+	public function set_plugin_path_and_url()
 	{
-		$this->plugin_path =  plugin_dir_path(__FILE__) . '../';
+		$this->plugin_path =  plugin_dir_path(dirname(__FILE__));
+		$this->plugin_url = plugins_url('', dirname(__FILE__));
 	}
 
 
 	/**
-	 * Get the Plugin Path
-	 * @return string - the server path for the base plugin directory
+	 * Plugin Url
+	 * Lets you simply put in the path as an argument, and 
+	 * returns the full url starting from plugin base url
+	 * @param  string $path
+	 * @return string
 	 */
-	public function get_plugin_path()
+	public function plugin_url($path)
 	{
-		return $this->plugin_path;
+		$path = ltrim($path, '/');
+		return $this->plugin_url . '/' . $path;
 	}
+
+
+	/**
+	 * Plugin Path
+	 * Lets you simply put in the path as an argument, and 
+	 * returns the full url starting from plugin base url
+	 * @param  string $path
+	 * @return string
+	 */
+	public function plugin_path($path)
+	{
+		$path = ltrim($path, '/');
+		return $this->plugin_path . '/' . $path;
+	}
+
+
 
 	
 	/**
@@ -93,10 +114,25 @@ class Contact {
 	 */
 	protected function set_actions()
 	{
-		// init action (before headers are sent), we check
-		// to see if our contact form was submitted
+		// init action (before headers are sent)
 		add_action( 'init', [$this, 'check_contact_form_submission'] );
+
+		// add in the form css from bootstrap
+		add_action( 'wp_enqueue_scripts', [$this, 'add_form_css'] );
 	}
+
+
+	/**
+	 * Add Form CSS
+	 */
+	public function add_form_css()
+	{
+
+		wp_register_style( 'contact-form-style', $this->plugin_url('css/bootstrap.min.css'), array(), '20120208', 'all' );
+    
+    	wp_enqueue_style( 'contact-form-style' );
+  	}
+
 
 
 	/**
@@ -106,7 +142,7 @@ class Contact {
 	 */
 	public function show_contact_form_handler()
 	{
-		return $this->get_template( $this->plugin_path . 'templates/template-contact-form.php' );
+		return $this->get_template( $this->plugin_path('templates/template-contact-form.php') );
 	}
 
 
