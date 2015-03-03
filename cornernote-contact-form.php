@@ -8,7 +8,7 @@ License: GPLv2 or later
 Text Domain: cornernote-contact-form
 */
 
-
+// change from macbook pro
 
 // we're using Composer's PSR-4 Autoloader
 require('vendor/autoload.php');
