@@ -129,8 +129,7 @@ class Contact {
 	{
 
 		wp_register_style( 'contact-form-style', $this->plugin_url('css/bootstrap.min.css'), [], '20120208', 'all');
-    
-    	wp_enqueue_style( 'contact-form-style' );
+		wp_enqueue_style( 'contact-form-style' );
   	}
 
 
